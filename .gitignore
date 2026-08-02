@@ -1,0 +1,9 @@
+# Test and coverage output
+coverage.out
+coverage.html
+*.test
+
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/
