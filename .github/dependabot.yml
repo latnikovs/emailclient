@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    labels:
+      - "dependencies"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "19:00"
+      timezone: "Europe/Riga"
+
+  - package-ecosystem: "gomod"
+    directory: "/"
+    labels:
+      - "dependencies"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "19:00"
+      timezone: "Europe/Riga"

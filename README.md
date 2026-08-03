@@ -1,5 +1,9 @@
 # emailclient
 
+[![CI](https://github.com/latnikovs/emailclient/actions/workflows/ci.yml/badge.svg)](https://github.com/latnikovs/emailclient/actions/workflows/ci.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/latnikovs/emailclient.svg)](https://pkg.go.dev/github.com/latnikovs/emailclient)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Go client for a JSON email-sending API. It is a **standalone module** with
 **stdlib-only dependencies**, so importing it never drags a server's cloud SDK
 dependencies into your application.
