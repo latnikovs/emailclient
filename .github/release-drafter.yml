@@ -23,7 +23,7 @@ categories:
     collapse-after: 5
     when:
       - conventional:
-          types: ['ci', 'chore', 'refactor']
+          types: ['ci', 'chore', 'refactor', 'build']
       - labels:
           - 'chore'
           - 'refactor'
