@@ -7,25 +7,26 @@ categories:
     when:
       - conventional:
           type: 'feat'
-      - label: 'enhancement'
+      - label: 'feature'
   - title: 'Bug Fixes'
     semver-increment: patch
     when:
       - conventional:
           types: ['fix', 'bug']
-      - label: 'bug'
+      - label: 'fix'
   - title: 'Documentation'
     when:
       - conventional:
           type: 'docs'
-      - label: 'documentation'
+      - label: 'docs'
   - title: 'Maintenance'
     collapse-after: 5
     when:
       - conventional:
-          types: ['ci', 'chore', 'refactor', 'gomod', 'test']
+          types: ['ci', 'chore', 'refactor']
       - labels:
           - 'chore'
+          - 'refactor'
           - 'dependencies'
   - type: version-resolver
     semver-increment: major
@@ -41,10 +42,10 @@ template: |
   $CHANGES
 
 autolabeler:
-  - label: 'enhancement'
+  - label: 'feature'
     title:
       - "/^feat/i"
-  - label: 'bug'
+  - label: 'fix'
     title:
       - "/^fix/i"
       - "/^bug/i"
@@ -53,8 +54,6 @@ autolabeler:
       - "/^ci/i"
       - "/^chore/i"
       - "/^refactor/i"
-      - "/^gomod/i"
-      - "/^test/i"
-  - label: 'documentation'
+  - label: 'docs'
     title:
       - "/^docs/i"

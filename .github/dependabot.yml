@@ -1,40 +1,29 @@
 version: 2
 updates:
-  # Go modules
-  - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "sunday"
-      time: "19:00"
-      timezone: "Europe/Riga"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-    commit-message:
-      prefix: "gomod"
-    groups:
-      # Batch minor + patch into one PR; majors come individually for review.
-      go-modules:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
-  # GitHub Actions used in workflows
   - package-ecosystem: "github-actions"
     directory: "/"
+    labels:
+      - "dependencies"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
     schedule:
       interval: "weekly"
       day: "sunday"
       time: "19:00"
       timezone: "Europe/Riga"
+
+  - package-ecosystem: "gomod"
+    directory: "/"
     labels:
       - "dependencies"
-    commit-message:
-      prefix: "ci"
     groups:
-      github-actions:
+      all-dependencies:
         patterns:
           - "*"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "19:00"
+      timezone: "Europe/Riga"
