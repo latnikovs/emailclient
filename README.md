@@ -67,6 +67,24 @@ Pass an empty content type to sniff it from the bytes. Attachment bytes are
 base64-encoded on the wire automatically; large payloads are offloaded server-side
 transparently.
 
+### Reply-To
+
+Send from a `noreply` address but route replies to a real inbox with `ReplyTo`:
+
+```go
+req := emailclient.SendRequest{
+	From:    "noreply@shop.example.com",
+	To:      []string{"orders@shop.example.com"},
+	ReplyTo: []string{shopper.Email},
+	Subject: "New contact form message",
+	Text:    body,
+}
+```
+
+`ReplyTo` is sent as `reply_to` and omitted when empty. The server must support
+`reply_to`; because it rejects unknown fields, a server without it returns
+`ErrInvalidRequest`.
+
 ### Errors
 
 `Send` returns an `*emailclient.APIError` for failure responses. Match the category

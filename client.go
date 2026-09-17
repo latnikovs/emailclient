@@ -90,6 +90,11 @@ type SendRequest struct {
 	Text        string       `json:"text,omitempty"`
 	Attachments []Attachment `json:"attachments,omitempty"`
 
+	// ReplyTo sets the addresses replies should go to, e.g. a real inbox when
+	// sending from a noreply address. It is omitted from the body when empty; the
+	// service must support reply_to, as it rejects unknown fields.
+	ReplyTo []string `json:"reply_to,omitempty"`
+
 	// IdempotencyKey, when set, is sent as the Idempotency-Key header (not in the
 	// body). A retry with the same key resolves to the same message id, making the
 	// send safe to repeat. Must be visible ASCII, at most 255 characters.
