@@ -238,3 +238,48 @@ func TestAttachFileSniffsContentType(t *testing.T) {
 		t.Errorf("explicit content type overridden: %q", explicit.ContentType)
 	}
 }
+
+func captureBody(t *testing.T, req SendRequest) map[string]any {
+	t.Helper()
+	var got map[string]any
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		raw, _ := io.ReadAll(r.Body)
+		if err := json.Unmarshal(raw, &got); err != nil {
+			t.Errorf("server decode: %v", err)
+		}
+		w.WriteHeader(http.StatusAccepted)
+		_, _ = w.Write([]byte(`{"id":"x","status":"queued"}`))
+	}))
+	defer srv.Close()
+	if _, err := newTestClient(t, srv).Send(context.Background(), req); err != nil {
+		t.Fatalf("Send: %v", err)
+	}
+	return got
+}
+
+func TestSendReplyToOnTheWire(t *testing.T) {
+	got := captureBody(t, SendRequest{
+		From:    "noreply@example.com",
+		To:      []string{"shop@example.com"},
+		ReplyTo: []string{"shopper@dest.com", "second@dest.com"},
+		Text:    "Hi",
+	})
+	replyTo, ok := got["reply_to"].([]any)
+	if !ok {
+		t.Fatalf("reply_to missing or not a list: %v", got)
+	}
+	if len(replyTo) != 2 || replyTo[0] != "shopper@dest.com" || replyTo[1] != "second@dest.com" {
+		t.Errorf("reply_to = %v", replyTo)
+	}
+}
+
+func TestSendOmitsReplyToWhenEmpty(t *testing.T) {
+	for name, replyTo := range map[string][]string{"nil": nil, "empty": {}} {
+		t.Run(name, func(t *testing.T) {
+			got := captureBody(t, SendRequest{To: []string{"a@b.c"}, ReplyTo: replyTo})
+			if _, ok := got["reply_to"]; ok {
+				t.Errorf("reply_to should be omitted, got %v", got["reply_to"])
+			}
+		})
+	}
+}
